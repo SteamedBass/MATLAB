@@ -1,6 +1,6 @@
-% D^16+D^6+D^4+D^1+1
+% D^16+D^15+D^4+D^1+1
 
-% D^15+D^14+D^5+D^2+1
+% D^13+D^12+D^10+D^9+1
 
 %%
 
@@ -10,9 +10,9 @@ clc
 delta_T = 1;
 a=1;
 %% LFSR1
-% R1 : p1(x) =D^11+D^2+1, T1 = 511
+% R1 : p1(x) =D^13+D^12+D^10+D^9+1, T1 =8191
 
-N1=32767;               
+N1=8191;               
 
 M(1)=0;
 M(2)=0;
@@ -26,19 +26,17 @@ M(9)=0;
 M(10)=0;
 M(11)=0;
 M(12)=0;
-M(13)=0;
-M(14)=0;
-M(15)=1;
+M(13)=1;
+
 
 Sequence1=[];  %Initiation
 for n = 1 : N1
-    temp = xor(xor(xor(M(15), M(13)),M(10)),M(1));               % alter
+    temp = xor(xor(xor(M(13), M(4)),M(3)),M(1));               % alter
     
-    Sequence1(n)=M(15);                 % alter
+    Sequence1(n)=M(13);                 % alter
     
 
-    M(15) = M(14);
-    M(14) = M(13);
+   
     M(13) = M(12);
     M(12) = M(11);
     M(11) = M(10);
@@ -59,7 +57,7 @@ end
 
 clear Sequence1_all;
 Sequence1_all=[];
-for r=1:2
+for r=1:1
     Sequence1_all=[Sequence1_all,Sequence1];  % Extend the sequence
 end
 
@@ -68,7 +66,7 @@ end
 
 %% LFSR2
 N2=65535;
-
+% R1 : p1(x) =D^16+D^15+D^4+D^1+1, T1 =8191
 
 M(1)=0;
 M(2)=0;
@@ -91,7 +89,7 @@ M(16)=1;                                  % alter  % start from here
 Sequence2=[];  %Initiation
 for m= 1 : N2
     
-    temp=xor(xor(xor(M(16), M(15)),M(12)),M(10));
+    temp=xor(xor(xor(M(16), M(15)),M(12)),M(1));
     Sequence2(m)=M(16);      % alter
     
     M(16) = M(15);

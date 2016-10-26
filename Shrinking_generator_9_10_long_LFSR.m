@@ -1,8 +1,3 @@
-% D^16+D^6+D^4+D^1+1
-
-% D^15+D^14+D^5+D^2+1
-
-%%
 
 clear all
 clc
@@ -10,9 +5,9 @@ clc
 delta_T = 1;
 a=1;
 %% LFSR1
-% R1 : p1(x) =D^11+D^2+1, T1 = 511
+% R1 : p1(x) = 1 + x^4 + x^9, T1 = 511
 
-N1=32767;               
+N1=511;               
 
 M(1)=0;
 M(2)=0;
@@ -22,27 +17,14 @@ M(5)=0;                                 % alter
 M(6)=0; 
 M(7)=0;
 M(8)=0;
-M(9)=0;
-M(10)=0;
-M(11)=0;
-M(12)=0;
-M(13)=0;
-M(14)=0;
-M(15)=1;
+M(9)=1;
 
 Sequence1=[];  %Initiation
 for n = 1 : N1
-    temp = xor(xor(xor(M(15), M(13)),M(10)),M(1));               % alter
+    temp = xor(M(9), M(5));               % alter
     
-    Sequence1(n)=M(15);                 % alter
+    Sequence1(n)=M(9);                 % alter
     
-
-    M(15) = M(14);
-    M(14) = M(13);
-    M(13) = M(12);
-    M(12) = M(11);
-    M(11) = M(10);
-    M(10) = M(9);
     M(9) = M(8);
     M(8) = M(7);
     M(7) = M(6);
@@ -59,7 +41,7 @@ end
 
 clear Sequence1_all;
 Sequence1_all=[];
-for r=1:2
+for r=1:50
     Sequence1_all=[Sequence1_all,Sequence1];  % Extend the sequence
 end
 
@@ -67,7 +49,8 @@ end
 
 
 %% LFSR2
-N2=65535;
+% R2 : p2(x) =D^10+D^7+D^6+D^5+D^4+D^3+D^2+D^1+1 
+N2=1023;
 
 
 M(1)=0;
@@ -79,28 +62,14 @@ M(6)=0;
 M(7)=0;
 M(8)=0;
 M(9)=0;
-M(10)=0;
-M(11)=0;
-M(12)=0;
-M(13)=0;
-M(14)=0;
-M(15)=0;
-
-M(16)=1;                                  % alter  % start from here
+M(10)=1;                                  % alter  % start from here
 
 Sequence2=[];  %Initiation
 for m= 1 : N2
     
-    temp=xor(xor(xor(M(16), M(15)),M(12)),M(10));
-    Sequence2(m)=M(16);      % alter
+    temp=xor(xor(xor(xor(xor(xor(xor(M(10), M(9)),M(8)),M(7)),M(6)),M(5)),M(4)),M(3));
+    Sequence2(m)=M(10);      % alter
     
-    M(16) = M(15);
-    M(15) = M(14);
-    M(14) = M(13);
-    M(13) = M(12);
-    
-    M(12) = M(11);
-    M(11) = M(10);
     M(10) = M(9);
     M(9) = M(8);
     M(8) = M(7);
@@ -115,7 +84,7 @@ end
 
 clear Sequence2_all;
 Sequence2_all=[];
-for r=1:1
+for r=1:50
     Sequence2_all=[Sequence2_all,Sequence2];  % Extend the sequence
 end
 

@@ -1,25 +1,75 @@
-% D^16+D^6+D^4+D^1+1
 
-% D^15+D^14+D^5+D^2+1
 
 %%
 
 clear all
 clc
-%%
+%
 delta_T = 1;
 a=1;
 %% LFSR1
-% R1 : p1(x) =D^11+D^2+1, T1 = 511
+% R1 : p1(x) =D^14+D^13+D^6+D^5+D^2+D^1+1
 
-N1=32767;               
+N1=16383;
+
+
+M(1)=0;
+M(2)=0;
+M(3)=0;
+M(4)=0;
+M(5)=0;
+M(6)=0;
+M(7)=0;
+M(8)=0;
+M(9)=0;
+M(10)=0;
+M(11)=0;
+M(12)=0;
+M(13)=0;
+M(14)=1;                                  % alter  % start from here
+
+Sequence1=[];  %Initiation
+for m= 1 : N1
+    
+    temp=xor(xor(xor(xor(xor(M(14), M(13)),M(12)),M(9)),M(8)),M(1));
+    Sequence1(m)=M(14);      % alter
+    
+   
+    M(14) = M(13);
+    M(13) = M(12);
+    M(12) = M(11);
+    M(11) = M(10);
+    M(10) = M(9);
+    M(9) = M(8);
+    M(8) = M(7);
+    M(7) = M(6);
+    M(6) = M(5);
+    M(5) = M(4);          % alter
+    M(4) = M(3);
+    M(3) = M(2);
+    M(2) = M(1);
+    M(1) = temp;
+end
+
+
+clear Sequence1_all;
+Sequence1_all=[];
+for r=1:1
+    Sequence1_all=[Sequence1_all,Sequence1];  % Extend the sequence
+end
+
+
+
+
+%% LFSR2
+N2=65535;
 
 M(1)=0;
 M(2)=0;
 M(3)=0;
 M(4)=0;
 M(5)=0;                                 % alter
-M(6)=0; 
+M(6)=0;
 M(7)=0;
 M(8)=0;
 M(9)=0;
@@ -28,15 +78,16 @@ M(11)=0;
 M(12)=0;
 M(13)=0;
 M(14)=0;
-M(15)=1;
+M(15)=0;
+M(16)=1;
 
-Sequence1=[];  %Initiation
-for n = 1 : N1
-    temp = xor(xor(xor(M(15), M(13)),M(10)),M(1));               % alter
+Sequence2=[];  %Initiation
+for n = 1 : N2
+    temp = xor(xor(xor(M(16), M(15)),M(12)),M(1));               % alter
     
-    Sequence1(n)=M(15);                 % alter
+    Sequence2(n)=M(16);                 % alter
     
-
+    M(16) = M(15);
     M(15) = M(14);
     M(14) = M(13);
     M(13) = M(12);
@@ -53,64 +104,6 @@ for n = 1 : N1
     M(2) = M(1);
     M(1) = temp;
     
-end
-
-
-
-clear Sequence1_all;
-Sequence1_all=[];
-for r=1:2
-    Sequence1_all=[Sequence1_all,Sequence1];  % Extend the sequence
-end
-
-
-
-
-%% LFSR2
-N2=65535;
-
-
-M(1)=0;
-M(2)=0;
-M(3)=0;
-M(4)=0;
-M(5)=0;
-M(6)=0;
-M(7)=0;
-M(8)=0;
-M(9)=0;
-M(10)=0;
-M(11)=0;
-M(12)=0;
-M(13)=0;
-M(14)=0;
-M(15)=0;
-
-M(16)=1;                                  % alter  % start from here
-
-Sequence2=[];  %Initiation
-for m= 1 : N2
-    
-    temp=xor(xor(xor(M(16), M(15)),M(12)),M(10));
-    Sequence2(m)=M(16);      % alter
-    
-    M(16) = M(15);
-    M(15) = M(14);
-    M(14) = M(13);
-    M(13) = M(12);
-    
-    M(12) = M(11);
-    M(11) = M(10);
-    M(10) = M(9);
-    M(9) = M(8);
-    M(8) = M(7);
-    M(7) = M(6);
-    M(6) = M(5);
-    M(5) = M(4);          % alter
-    M(4) = M(3);
-    M(3) = M(2);
-    M(2) = M(1);
-    M(1) = temp;
 end
 
 clear Sequence2_all;
