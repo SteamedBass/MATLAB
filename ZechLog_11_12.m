@@ -20,7 +20,6 @@ alpha12=[1,0,0,0,1,0,0,1,0,0,0,1];       % p(x) is different with p2(x)
 alpha=cat(3,alpha0,alpha1,alpha2,alpha3,alpha4,alpha5,alpha6,alpha7,alpha8,alpha9,alpha10,alpha11,alpha12); %
 
 for al=13:N2
-%     alpha(:,:,al)=xor(xor(xor(xor(alpha(:,:,al-1),alpha(:,:,al-2)),alpha(:,:,al-6)),alpha(:,:,al-9)),alpha(:,:,al-12));  % p(x)   +1:-10                     
     alpha(:,:,al)=xor(xor(xor(alpha(:,:,al-1),alpha(:,:,al-5)),alpha(:,:,al-8)),alpha(:,:,al-12));  % p(x)   +1:-10                     
 
 end

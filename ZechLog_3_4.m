@@ -5,12 +5,12 @@ alpha0=[0,0,0,1];
 alpha1=[0,0,1,0];
 alpha2=[0,1,0,0];
 alpha3=[1,0,0,0];
-alpha4=[1,0,0,1];
+alpha4=[0,0,1,1];    %D^4+D^1+1
 
 alpha=cat(3,alpha0,alpha1,alpha2,alpha3,alpha4);
 
 for al=5:N2
-    alpha(:,:,al)=xor(alpha(:,:,al-1),alpha(:,:,al-4) );
+    alpha(:,:,al)=xor(alpha(:,:,al-3),alpha(:,:,al-4) );
 end
 
 if d1-d0<0
