@@ -304,23 +304,23 @@ while state<=(N1-1)/2
     
     if state==5000
         save workspace_15_16_58_5000;
-        break;
+        
     end
      if state==10000
         save workspace_15_16_58_10000;
-        break;
+       
     end
      if state==15000
         save workspace_15_16_58_15000;
-        break;
+      
     end
      if state==20000
         save workspace_15_16_58_20000;
-        break;
+       
     end
      if state==25000
         save workspace_15_16_58_25000;
-        break;
+      
     end
     
     
