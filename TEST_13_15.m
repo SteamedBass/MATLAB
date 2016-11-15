@@ -1,51 +1,61 @@
-function [runningtime]=TEST_4_5(~)
-
+function [runningtime]=TEST_13_15(~)
+tic
 clear all
 clc
 %      clock
-tic
+delta_T = 1;
+T1=13;
+T2=15;
 
 % Zech Logorithm
-N2=31;
-alpha0=[0,0,0,0,1];
-alpha1=[0,0,0,1,0];
-alpha2=[0,0,1,0,0];
-alpha3=[0,1,0,0,0];
-alpha4=[1,0,0,0,0];        %D^4+D^1+1
-alpha5=[0,0,1,0,1];
+N2=2^T2-1;              %
+
+alpha0=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,1];
+alpha1=[0,0,0,0,0,0,0,0,0,0,0,0,0,1,0];
+alpha2=[0,0,0,0,0,0,0,0,0,0,0,0,1,0,0];
+alpha3=[0,0,0,0,0,0,0,0,0,0,0,1,0,0,0];
+alpha4=[0,0,0,0,0,0,0,0,0,0,1,0,0,0,0];
+alpha5=[0,0,0,0,0,0,0,0,0,1,0,0,0,0,0];
+alpha6=[0,0,0,0,0,0,0,0,1,0,0,0,0,0,0];
+alpha7=[0,0,0,0,0,0,0,1,0,0,0,0,0,0,0];
+alpha8=[0,0,0,0,0,0,1,0,0,0,0,0,0,0,0];
+alpha9=[0,0,0,0,0,1,0,0,0,0,0,0,0,0,0];
+alpha10=[0,0,0,0,1,0,0,0,0,0,0,0,0,0,0];
+alpha11=[0,0,0,1,0,0,0,0,0,0,0,0,0,0,0];
+alpha12=[0,0,1,0,0,0,0,0,0,0,0,0,0,0,0];
+alpha13=[0,1,0,0,0,0,0,0,0,0,0,0,0,0,0];
+alpha14=[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+alpha15=[0,1,1,1,0,1,0,1,0,0,1,0,0,1,1];   % D^15+D^13+D^12+D^11+D^9+D^7+D^4+D+1
+      % p(x) is different with p2(x)
 
 
-alpha=cat(3,alpha0,alpha1,alpha2,alpha3,alpha4,alpha5); %
+alpha=cat(3,alpha0,alpha1,alpha2,alpha3,alpha4,alpha5,alpha6,alpha7,alpha8,alpha9,alpha10,alpha11,alpha12,alpha13,alpha14,alpha15); %
 
-for al=6:N2
-    alpha(:,:,al)=xor(alpha(:,:,al-3),alpha(:,:,al-5));  % p(x)   +1:-10
+for al=16:N2
+    alpha(:,:,al)=xor(xor(xor(xor(xor(xor(xor(alpha(:,:,al-2),alpha(:,:,al-3)),...
+        alpha(:,:,al-4)),alpha(:,:,al-6)),alpha(:,:,al-8)),alpha(:,:,al-11))...
+        ,alpha(:,:,al-14)),alpha(:,:,al-15));  % p(x)   +1:-10                     
 end
 
 
-load Shrunken_Sequence1000.mat;
-load Sequence1_all1000.mat
+load Shrunken_Sequence_13_15.mat;
 
 
-num_int=18;
-actual_position=zeros(num_int,1);
-
-
+load Sequence1_all_13.mat
 Sequence1_all=Sequence1_all';
-N1=15;
+N1=2^T1-1;
 count=1:N1;
-% initial_state=dec2bin(count);
+initial_state=dec2bin(count);
 state=1;
-
+correct_state=[];
 d=modula(N1,N2);
 Correct_state=cat(3);     % Store correct initial states
-correct_state=[];
 correct_counter=1;
+states=zeros(1,log2(N1+1));
 
 
-Times_positions_founded=zeros(N1+1,1);
-
-
-
+num_int=35;
+Times_positions_founded=zeros(num_int+1,1);
 
 % Generate Intercepted Bits set
 Intercepted_Bits1=Shrunken_Sequence(1:num_int);
@@ -60,11 +70,13 @@ end
 % Find positions of 1s in sequence1
 
 nom_ones=1;
-pos_original=zeros(num_int,1);
+
 counter_ones=1;
 
-
-
+actual_position=zeros(num_int,1);
+ pos_original=zeros(num_int,1);
+ 
+ 
 while 1
     if Sequence1_all(counter_ones)==1
         actual_position(nom_ones)=counter_ones-1;
@@ -78,7 +90,7 @@ while 1
 end
 counter_ones=counter_ones-1;
 % Calculate position 1 (No Zech Logorithm)
-pos1=[];
+pos1=zeros(num_int,1);
 
 for counter1=1:length(pos_original)
     pos1(counter1)=mod(pos_original(counter1)*d,N2);
@@ -130,7 +142,7 @@ for gen_row=1:length(Intercepted_Bits1)
             if    eval(strcat('Recovery(pos',num2str(gen_row),'(gen_col)+1)~=Intercepted_Bits',...
                     num2str(gen_row),'(gen_col);'    ));
                 tf=1;     % contradiction
-                
+                 Times_positions_founded(gen_row)=Times_positions_founded(gen_row)+1;
                 fprintf('Wrong!\n');
                 fprintf('Contradiction found: line %d #%d, position: %d\n',gen_row,...
                     gen_col,eval(strcat('pos',num2str(gen_row),'(gen_col)')));
@@ -153,26 +165,27 @@ Recovery=Recovery';
 if tf==0
     
     Correct_state(:,:,correct_counter)=Sequence1_all(pos_original(1)+1:pos_original(1)+log2(N1+1));
-    correct_state(correct_counter)=state;
+     correct_state(correct_counter)=state;
     correct_counter=correct_counter+1;
     fprintf('Correct!\n');
     fprintf('%d',Sequence1_all(pos_original(1)+1:pos_original(1)+log2(N1+1)));
-    fprintf('\n**********************************************************************\n');
+        fprintf('\n**********************************************************************\n');
     
 end
 pos_original=pos_original';
 actual_position=actual_position';
+toc
 %% Other States !!!!!!!!!!!!
 while state<=(N1-1)/2
-    
+  tic
     
     state=state+1;
     fprintf('%d.\n',state);
+     states=zeros(1,log2(N1+1));
+   
+   
     
-    states=zeros(1,log2(N1+1));
-    
-    
-    %% Shift line 1
+    %% Shift line 1 
     
     minus_num=pos1(2);
     pos1=pos1-minus_num;
@@ -183,7 +196,7 @@ while state<=(N1-1)/2
         end
     end
     
-    pos1(1:end-1)=pos1(2:end);                       % shift 1 position,
+    pos1(1:end-1)=pos1(2:end);                       % shift 1 position, 
     
     
     %% select the Original Position of the last bit
@@ -199,7 +212,7 @@ while state<=(N1-1)/2
     
     while 1
         counter_ones=counter_ones+1;
-        
+  
         if Sequence1_all(counter_ones)==1
             pos_original(end)=counter_ones-actual_position(1)-1;
             break;
@@ -207,6 +220,7 @@ while state<=(N1-1)/2
     end
     actual_position(end)=counter_ones-1;
     i=1;
+  
     while 1
         if pos_original(i)>=log2(N1+1)
             break;
@@ -214,7 +228,7 @@ while state<=(N1-1)/2
         states(pos_original(i)+1)=1;
         i=i+1;
     end
-    %% shift the rest of positions
+    %% shift the rest of positions 
     
     
     
@@ -235,7 +249,7 @@ while state<=(N1-1)/2
     
     
     for row_counter=2:num_int
-        eval(strcat('pos',num2str(row_counter),'(end)=ZechLog_4_5(pos',...
+        eval(strcat('pos',num2str(row_counter),'(end)=ZechLog_13_15(pos',...
             num2str(row_counter-1),'(end),pos',...
             num2str(row_counter-1),'(end-1));'))
     end
@@ -251,8 +265,7 @@ while state<=(N1-1)/2
                 if    eval(strcat('Recovery(pos',num2str(gen_row),'(gen_col)+1)~=Intercepted_Bits',...
                         num2str(gen_row),'(gen_col);'    ));
                     tf=1;     % contradiction
-                    Times_positions_founded(gen_row)=Times_positions_founded(gen_row)+1;
-                    
+                     Times_positions_founded(gen_row)=Times_positions_founded(gen_row)+1; 
                     fprintf('%d',states);
                     fprintf('\nWrong!\n');
                     fprintf('Contradiction found: line %d #%d, position: %d\n',gen_row,...
@@ -282,15 +295,19 @@ while state<=(N1-1)/2
         
     end
     
-    
+   toc
 end   %while
+
+
 runningtime=toc
 Correct_state
 correct_state
 Times_positions_founded
 
-save workspace_4_5_19
 
-
+save workspace_13_15_35
 end
+
+
+
 

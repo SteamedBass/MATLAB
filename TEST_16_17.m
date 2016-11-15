@@ -1,4 +1,4 @@
-
+function [runningtime]=TEST_16_17(~)
 tic
 clear all
 clc
@@ -175,6 +175,8 @@ if tf==0
 end
 pos_original=pos_original';
 actual_position=actual_position';
+
+toc
 %% Other States !!!!!!!!!!!!
 while state<=(N1-1)/2
     
@@ -296,11 +298,42 @@ while state<=(N1-1)/2
     end
     
     
+    
+    %% Save different periods
+    
+    
+    if state==5000
+        save workspace_15_16_58_5000;
+        break;
+    end
+     if state==10000
+        save workspace_15_16_58_10000;
+        break;
+    end
+     if state==15000
+        save workspace_15_16_58_15000;
+        break;
+    end
+     if state==20000
+        save workspace_15_16_58_20000;
+        break;
+    end
+     if state==25000
+        save workspace_15_16_58_25000;
+        break;
+    end
+    
+    
+    
+    toc
 end   %while
 
 runningtime=toc
+Correct_state
+correct_state
+Times_positions_founded
 
 save workspace_15_16_50
-
+end
 
 

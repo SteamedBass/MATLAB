@@ -1,8 +1,8 @@
+function [runningtime]=TEST_19_20(~)
+
 tic
 clear all
 clc
-%      clock
-delta_T = 1;
 
 % Zech Logorithm
 N2=2^20-1;              %
@@ -297,10 +297,13 @@ end   %while
 
 
 runningtime=toc
+Correct_state
+correct_state
+Times_positions_founded
 
 save workspace_19_20_70
 
 
-
+end
 
 

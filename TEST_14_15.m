@@ -1,4 +1,4 @@
-
+function [runningtime]=TEST_14_15(~)
 tic
 clear all
 clc
@@ -298,8 +298,11 @@ while state<=(N1-1)/2
     
 end   %while
 runningtime=toc
+Correct_state
+correct_state
+Times_positions_founded
 
 save workspace_14_15_40
 
 
-
+end

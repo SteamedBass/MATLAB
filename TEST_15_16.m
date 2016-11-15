@@ -1,9 +1,8 @@
-
+function [runningtime]=TEST_15_16(~)
 tic
 clear all
 clc
-%      clock
-delta_T = 1;
+
 %D^15+D^14+D^5+D^2+1
 %
 T1=15;
@@ -300,8 +299,11 @@ while state<=(N1-1)/2
 end   %while
 
 runningtime=toc
+Correct_state
+correct_state
+Times_positions_founded
 
 save workspace_15_16_50
-
+end
 
 

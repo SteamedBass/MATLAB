@@ -1,9 +1,10 @@
+function [runningtime]=TEST_13_14(~)
 
 tic
 clear all
 clc
 %      clock
-delta_T = 1;
+
 T1=13;
 T2=14;
 
@@ -36,19 +37,19 @@ end
 
 load Shrunken_Sequence_13_14.mat;
 
-actual_position=[];
+
 
 load Sequence1_all_13.mat
-Sequence1_all=Sequence1_all';
-N1=8191;
-count=1:N1;
-initial_state=dec2bin(count);
+% Sequence1_all=Sequence1_all';
+N1=2^T1-1;
+% count=1:N1;
+% initial_state=dec2bin(count);
 state=1;
 correct_state=[];
 d=modula(N1,N2);
 Correct_state=cat(3);     % Store correct initial states
 correct_counter=1;
-states=zeros(1,log2(N1+1));
+% states=zeros(1,log2(N1+1));
 
 
 num_int=30;
@@ -67,9 +68,9 @@ end
 % Find positions of 1s in sequence1
 
 nom_ones=1;
-pos_original=[];
+pos_original=zeros(1,num_int);
 counter_ones=1;
-
+actual_position=zeros(1,num_int);
 
 
 while 1
@@ -85,7 +86,7 @@ while 1
 end
 counter_ones=counter_ones-1;
 % Calculate position 1 (No Zech Logorithm)
-pos1=[];
+pos1=zeros(1,num_int);
 
 for counter1=1:length(pos_original)
     pos1(counter1)=mod(pos_original(counter1)*d,N2);
@@ -196,7 +197,7 @@ while state<=(N1-1)/2
     
     %% select the Original Position of the last bit
     
-    counter_once=1;
+%     counter_once=1;
     
     
     pos_original(1:end)=pos_original(1:end)-pos_original(2);
@@ -295,10 +296,15 @@ end   %while
 
 
 runningtime=toc
+Correct_state
+correct_state
+Times_positions_founded
 
 
 save workspace_13_14_30
 
+
+end
 
 
 
