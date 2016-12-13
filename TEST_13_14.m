@@ -52,7 +52,7 @@ correct_counter=1;
 % states=zeros(1,log2(N1+1));
 
 
-num_int=30;
+num_int=35;
 Times_positions_founded=zeros(num_int+1,1);
 
 % Generate Intercepted Bits set

@@ -47,7 +47,7 @@ Correct_state=cat(3);     % Store correct initial states
 correct_counter=1;
 correct_state=[];
 
-num_int=28;
+num_int=27;
 
 Times_positions_founded=zeros(num_int+1,1);
 
@@ -165,6 +165,8 @@ if tf==0
 end
 pos_original=pos_original';
 actual_position=actual_position';
+
+toc
 %% Other States !!!!!!!!!!!!
 while state<=(N1-1)/2
     
